@@ -1,137 +1,179 @@
-import * as React from "react"
-import { Minus, Plus } from "lucide-react"
-import { Bar, BarChart, ResponsiveContainer } from "recharts"
+// "use client"
+// import * as React from "react"
+// import { useState } from "react"
+// import { Button } from "../components/ui/button"
+// import {
+//   Drawer,
+//   DrawerClose,
+//   DrawerContent,
+//   DrawerDescription,
+//   DrawerFooter,
+//   DrawerHeader,
+//   DrawerTitle,
+//   DrawerTrigger,
+// } from "../components/ui/drawer"
+// import { FaLocationArrow } from "react-icons/fa"
 
-import { Button } from "../components/ui/button"
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../components/ui/drawer"
-import { FaLocationArrow } from "react-icons/fa"
 
-const data = [
-  {
-    goal: 400,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 239,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 349,
-  },
-]
+// const [formData, setFormData] = useState({
+//   fullName: "",
+//   phoneNumber: "",
+//   address: "",
+//   email: "",
+// });
 
-export function DrawerDemo() {
-  const [goal, setGoal] = React.useState(350)
+// const [errors, setErrors] = useState({
+//   fullName: "",
+//   phoneNumber: "",
+//   address: "",
+//   email: "",
+// });
+// const handleInputChange = (e: { target: { name: any; value: any } }) => {
+//   const { name, value } = e.target;
+//   setFormData({
+//     ...formData,
+//     [name]: value,
+//   });
 
-  function onClick(adjustment: number) {
-    setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-  }
+// };
 
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <button className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2">
-          <span>Contact </span><FaLocationArrow />
-        </button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-          </DrawerHeader>
-          <div className="p-4 pb-0">
-            <div className="flex items-center justify-center space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(-10)}
-                disabled={goal <= 200}
-              >
-                <Minus className="h-4 w-4" />
-                <span className="sr-only">Decrease</span>
-              </Button>
-              <div className="flex-1 text-center">
-                <div className="text-7xl font-bold tracking-tighter">
-                  {goal}
-                </div>
-                <div className="text-[0.70rem] uppercase text-muted-foreground">
-                  Calories/day
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(10)}
-                disabled={goal >= 400}
-              >
-                <Plus className="h-4 w-4" />
-                <span className="sr-only">Increase</span>
-              </Button>
-            </div>
-            <div className="mt-3 h-[120px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data}>
-                  <Bar
-                    dataKey="goal"
-                    style={
-                      {
-                        fill: "hsl(var(--foreground))",
-                        opacity: 0.9,
-                      } as React.CSSProperties
-                    }
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </div>
-      </DrawerContent>
-    </Drawer>
-  )
-}
+// const handleSubmit = (e: { preventDefault: () => void }) => {
+//   e.preventDefault();
+//   // Basic required field validation
+//   let isValid = true;
+//   let newErrors = { ...errors };
+
+//   // Validate other fields (e.g., fullName, address)
+//   if (!formData.fullName.trim()) {
+//     isValid = false;
+//     newErrors.fullName = "Full name is required.";
+//   }
+//   if (!formData.address.trim()) {
+//     isValid = false;
+//     newErrors.address = "Address is required.";
+//   }
+
+//   setErrors(newErrors);
+
+//   if (isValid) {
+//     // Form is valid, handle submission logic here
+//     console.log("Form submitted successfully:", formData);
+//   }
+// };
+
+// export function DrawerDemo() {
+//   const [goal, setGoal] = React.useState(350)
+
+//   function onClick(adjustment: number) {
+//     setGoal(Math.max(200, Math.min(400, goal + adjustment)))
+//   }
+
+//   return (
+//     <Drawer>
+//       <DrawerTrigger asChild>
+//         <button className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2">
+//           <span>Contact </span><FaLocationArrow />
+//         </button>
+//       </DrawerTrigger>
+//       <DrawerContent>
+//         <div className="mx-auto w-full max-w-sm">
+//           <DrawerHeader>
+//             <DrawerTitle>Move Goal</DrawerTitle>
+//             <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+//           </DrawerHeader>
+//           <form onSubmit={handleSubmit} className="space-y-5 flex flex-col items-center w-full py-5 px-1 ">
+//             <div className="row flex w-full px-5 gap-3 flex-wrap md:flex-nowrap">
+//               {/* Full Name */}
+//               <div className="flex flex-col w-full">
+//                 <label className="text-sm font-semibold mb-1">Full name</label>
+//                 <input
+//                   type="text"
+//                   name="fullName"
+//                   className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+//                   placeholder="Enter your full name"
+//                   value={formData.fullName}
+//                   onChange={handleInputChange}
+//                   required
+//                 />
+//                 {errors.fullName && (
+//                   <p className="text-red-600 text-sm">{errors.fullName}</p>
+//                 )}
+//               </div>
+
+//               {/* Phone Number */}
+//               <div className="flex flex-col w-full">
+//                 <label className="text-sm font-semibold mb-1">Phone number</label>
+//                 <input
+//                   type="text"
+//                   name="phoneNumber"
+//                   className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+//                   placeholder="Enter your phone number"
+//                   value={formData.phoneNumber}
+//                   onChange={handleInputChange}
+//                   required
+//                 />
+//                 {errors.phoneNumber && (
+//                   <p className="text-red-600 text-sm">{errors.phoneNumber}</p>
+//                 )}
+//               </div>
+//             </div>
+//             <div className="row flex w-full px-5 gap-3 flex-wrap md:flex-nowrap">
+//               {/* Address */}
+//               <div className="flex flex-col w-full">
+//                 <label className="text-sm font-semibold mb-1">Address</label>
+//                 <input
+//                   type="text"
+//                   name="address"
+//                   className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+//                   placeholder="Enter your address"
+//                   value={formData.address}
+//                   onChange={handleInputChange}
+//                   required
+//                 />
+//                 {errors.address && (
+//                   <p className="text-red-600 text-sm">{errors.address}</p>
+//                 )}
+//               </div>
+
+//               {/* Email */}
+//               <div className="flex flex-col w-full">
+//                 <label className="text-sm font-semibold mb-1">
+//                   Email <span className="text-gray-500 text-xs">(optional)</span>
+//                 </label>
+//                 <input
+//                   type="email"
+//                   name="email"
+//                   className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+//                   placeholder="Enter your email (optional)"
+//                   value={formData.email}
+//                   onChange={handleInputChange}
+//                 />
+//               </div>
+//             </div>
+//             <div className="row flex w-full px-5 gap-3 flex-wrap md:flex-nowrap">
+//               <div className="row flex w-full gap-3 flex-wrap md:flex-nowrap">
+//                 {/* Requested Service */}
+//                 <div className="flex flex-col w-full">
+//               <label className="text-sm font-semibold mb-1">
+//                 Requested service
+//               </label>
+//               <input
+//                 type="text"
+//                 className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+//                 placeholder="Full cleaning"
+//               />
+//             </div>
+//               </div>
+//             </div>              
+//           </form>
+//           <DrawerFooter>
+//             <Button>Submit</Button>
+//             <DrawerClose asChild>
+//               <Button variant="outline">Cancel</Button>
+//             </DrawerClose>
+//           </DrawerFooter>
+//         </div>
+//       </DrawerContent>
+//     </Drawer>
+//   )
+// }

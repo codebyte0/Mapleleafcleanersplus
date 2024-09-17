@@ -14,9 +14,12 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   overflow-x: hidden !important;
-  scroll-behavior:smooth;
 }
 @keyframes rotate {
   from {

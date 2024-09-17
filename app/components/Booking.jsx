@@ -2,8 +2,7 @@
 import * as React from "react";
 import RangeSlider from "./ui/Range";
 import { FaLocationArrow } from "react-icons/fa";
-import { Label } from "./ui/label";
-import { RadioGroup, RadioGroupItem } from "../components/radio-group";
+import { DialogDemo } from "./ui/Confirmpopup";
 import { IoIosArrowForward } from "react-icons/io";
 import { TextField, IconButton } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -11,12 +10,14 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { format, setHours, setMinutes } from "date-fns"; // Import date-fns utilities
+import { format, setHours, setMinutes } from "date-fns";
 import { useState } from "react";
+import { DialogTrigger, Dialog } from "./ui/dialog";
 const Booking = () => {
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [selectedTime, setSelectedTime] = useState(new Date().setHours(8, 0)); // Default to 8:00 AM
   const [open, setOpen] = React.useState(false);
+  const [showpopup, setshowpopup] = useState(false);
   // minimum and maximum time limits (7 AM and 8 PM)
   const minTime = setHours(setMinutes(new Date(), 0), 7); // 7:00 AM
   const maxTime = setHours(setMinutes(new Date(), 0), 20); // 8:00 PM
@@ -76,6 +77,11 @@ const Booking = () => {
       isValid = false;
       newErrors.phoneNumber = phoneError;
     }
+    if (isValid) {
+      // Form is valid, show the popup
+      setshowpopup(true); // Trigger the popup
+      console.log("Form submitted successfully:", formData);
+    }
 
     // Validate other fields (e.g., fullName, address)
     if (!formData.fullName.trim()) {
@@ -95,8 +101,15 @@ const Booking = () => {
     }
   };
 
+  const handlepopupclose = () => {
+    setshowpopup(false);
+  };
+
   return (
-    <div id="booknow" className="h-auto max-w-6xl mx-auto md:px-[0.8rem] px-[2rem] py-[2.5rem] flex gap-[5rem] flex-col md:flex-row ">
+    <div
+      id="booknow"
+      className="h-auto max-w-6xl mx-auto md:px-[0.8rem] px-[2rem] py-[2.5rem] flex gap-[5rem] flex-col md:flex-row "
+    >
       <div className="textpart flex-1 space-y-5 flex items-start justify-center flex-col">
         <h2 className="mx-auto text-4xl md:text-5xl font-bold text-neutral-800 ">
           Request a Free Cleaning Quote today!
@@ -115,7 +128,10 @@ const Booking = () => {
         <h3 className="mx-auto text-xl md:text-5xl font-bold text-neutral-800 my-4">
           Get a quote
         </h3>
-        <form onSubmit={handleSubmit} className="space-y-5 flex flex-col items-center w-full py-5 px-1 ">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5 flex flex-col items-center w-full py-5 px-1 "
+        >
           <div className="row flex w-full px-5 gap-3 flex-wrap md:flex-nowrap">
             {/* Full Name */}
             <div className="flex flex-col w-full">
@@ -258,10 +274,12 @@ const Booking = () => {
           </div>
 
           {/* Submit Button */}
-          <button className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2 self-start ml-5">
-            <span>Submit</span>
-            <IoIosArrowForward />
-          </button>
+              <button className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2 self-start ml-5">
+                <span>Submit</span>
+                <IoIosArrowForward />
+              </button>
+
+          {showpopup && <DialogDemo onClose={handlepopupclose} />}
         </form>
       </div>
     </div>

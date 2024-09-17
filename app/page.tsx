@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import Booking from "./components/Booking"
 export default function Home() {
   return (
-    <main className='h-[300vh] bg-white'>
+    <main className='h-auto bg-white overflow-hidden'>
       <div>
         <Header/>
       </div>

@@ -1,15 +1,24 @@
 "use client";
 import React from "react";
-import {FeaturesSectionDemo} from "../components/Egcards";
+import {FeaturesSectionDemo} from "./Egcards";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../components/ui/accordion";
-import { DrawerDemo } from "./Drawer";
+} from "./ui/accordion";
+import {Button} from "./ui/button";
 
 const About = () => {
+const openTalkToChat = (err) => {
+  // Trigger Talk.to chat to open
+  if (window && window.Tawk_API) {
+    window.Tawk_API.maximize();  // This opens the chat widget
+  }
+  else{
+    console.log(err);
+  }
+};
   return (
     <div className="bg-white w-full h-auto md:h-[90vh] overflow-hidden" id="about">
       <div className="max-w-6xl mx-auto py-[7rem] ">
@@ -55,7 +64,7 @@ const About = () => {
                   </AccordionItem>
                 </Accordion>
               </div>
-              <DrawerDemo/>
+              <Button className="px-4 py-2 bg-yellow-400 hover:bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2" onClick={openTalkToChat}>Get Started</Button>
             </div>
           </div>
         </div>

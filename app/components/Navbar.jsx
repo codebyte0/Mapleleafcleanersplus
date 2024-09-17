@@ -23,9 +23,9 @@ const Navbar = () => {
             <div className="container py-2 md:py-0">
                 <div className="flex justify-start items-center gap-[10rem] sm:gap-[16rem] md:gap-[20rem] lg:gap-[25rem]">
                     {/* logo section */}
-                    <div className="flex item-center gap-3 mt-2">
-                        <Image src={logo} alt="logo" className="h-13 w-14" height={100} width={100}/>
-                        <Link href={"/"} className="text-lg mt-2">
+                    <div className="flex item-center -translate-y-2">
+                        <Image src={logo} alt="logo" className="h-[5rem] w-[5rem] top-0 absolute -translate-y-[7px]" height={250} width={200}/>
+                        <Link href={"/"} className="text-lg mt-4 ml-16">
                             Maple leaf Cleaners plus
                         </Link>
                     </div>
