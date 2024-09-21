@@ -18,6 +18,22 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Maple Leaf Cleaners Plus",
   description: "Maple Leaf Cleaners Plus offer professional cleaning services to residential and commercial customers.",
+  openGraph: {
+    title: "Maple Leaf Cleaners Plus",
+    description: "Professional cleaning services for homes and businesses.",
+    url: "https://mapleleafcleanersplus.vercel.app",
+    siteName: "Maple Leaf Cleaners Plus",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Maple Leaf Cleaners Plus",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
