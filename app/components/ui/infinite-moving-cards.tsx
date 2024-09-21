@@ -3,7 +3,8 @@ import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import cleaner from "../../assets/cleaner.png"
-import { Rating, Typography } from "@mui/material";
+import { Rating } from "@mui/material";
+import pfp from "../../assets/pfp.png"
 
 export const InfiniteMovingCards = ({
     items,
@@ -15,7 +16,7 @@ export const InfiniteMovingCards = ({
     items: {
         quote: string;
         name: string;
-        title: string;
+        title?: string;
         value: number;
     }[];
     direction?: "left" | "right";
@@ -113,7 +114,7 @@ export const InfiniteMovingCards = ({
                             <div className="relative z-20 mt-6 flex flex-row items-center">
                                 <span className="flex flex-col gap-1">
                                     <span className="flex gap-2 text-sm leading-[1.6] text-black font-semibold">
-                                        <Image width={25} height={25} src={cleaner} alt="img" className="rounded-full" />
+                                        <Image width={25} height={25} src={pfp} alt="img" className="rounded-full" />
                                         {item.name}
                                     </span>
                                     <span className=" text-sm leading-[2] text-black font-normal">

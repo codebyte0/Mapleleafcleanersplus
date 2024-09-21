@@ -1,89 +1,101 @@
 "use client";
-import * as React from "react";
-import RangeSlider from "./ui/Range";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { IconButton, TextField } from "@mui/material";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { setHours, setMinutes } from "date-fns";
+import React, { useState } from "react";
 import { FaLocationArrow } from "react-icons/fa";
 import { DialogDemo } from "./ui/Confirmpopup";
-import { IoIosArrowForward } from "react-icons/io";
-import { TextField, IconButton } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { format, setHours, setMinutes } from "date-fns";
-import { useState } from "react";
-import { DialogTrigger, Dialog } from "./ui/dialog";
-const Booking = () => {
-  const [selectedDate, setSelectedDate] = React.useState(null);
-  const [selectedTime, setSelectedTime] = useState(new Date().setHours(8, 0)); // Default to 8:00 AM
-  const [open, setOpen] = React.useState(false);
-  const [showpopup, setshowpopup] = useState(false);
-  // minimum and maximum time limits (7 AM and 8 PM)
-  const minTime = setHours(setMinutes(new Date(), 0), 7); // 7:00 AM
-  const maxTime = setHours(setMinutes(new Date(), 0), 20); // 8:00 PM
+import RangeSlider from "./ui/Range";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
-  // Disable past dates and allow only dates 2 days in the future or later
-  const minSelectableDate = new Date();
-  minSelectableDate.setDate(minSelectableDate.getDate() + 2);
+const Booking = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
     address: "",
     email: "",
+    houseSize: [1000, 5000],
+    selectedDate: null,
+    selectedTime: null, // Initialize selectedTime as a Date object
   });
 
-  const [errors, setErrors] = useState({
-    fullName: "",
-    phoneNumber: "",
-    address: "",
-    email: "",
-  });
-
-  // Function to validate the phone number
-  const validatePhoneNumber = (phone) => {
-    const phoneTrimmed = phone.replace(/\D/g, ""); // Remove non-digit characters
-    if (phoneTrimmed.length < 7) {
-      return "Phone number must be at least 7 digits long.";
-    }
-    return ""; // No error
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  // Animation Variants
+  const textVariant = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
   };
+
+  const imgVariant = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
+
+  const [errors, setErrors] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+
+  const minTime = setHours(setMinutes(new Date(), 0), 7); // 7:00 AM
+  const maxTime = setHours(setMinutes(new Date(), 0), 20); // 8:00 PM
+  const minSelectableDate = new Date();
+  minSelectableDate.setDate(minSelectableDate.getDate() + 2); // Minimum selectable date is 2 days from now
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
 
-    // Real-time validation for phone number
     if (name === "phoneNumber") {
-      const errorMsg = validatePhoneNumber(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        phoneNumber: errorMsg,
-      }));
+      const phoneError = validatePhoneNumber(value);
+      setErrors({ ...errors, phoneNumber: phoneError });
+    }
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    setFormData((prevData) => ({ ...prevData, houseSize: newValue }));
+  };
+
+  const validatePhoneNumber = (phone) => {
+    const phoneTrimmed = phone.replace(/\D/g, "");
+    return phoneTrimmed.length < 7
+      ? "Phone number must be at least 7 digits long."
+      : "";
+  };
+
+  const handleTimeChange = (newTime) => {
+    if (newTime && formData.selectedDate) {
+      // Set minutes to 0
+      const updatedTime = new Date(formData.selectedDate);
+      updatedTime.setHours(newTime.getHours(), 0); // Always set minutes to 0
+      setFormData({ ...formData, selectedTime: updatedTime });
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Basic required field validation
     let isValid = true;
-    let newErrors = { ...errors };
+    let newErrors = {};
 
-    // Validate phone number
+    // Phone validation
     const phoneError = validatePhoneNumber(formData.phoneNumber);
     if (phoneError) {
       isValid = false;
       newErrors.phoneNumber = phoneError;
     }
-    if (isValid) {
-      // Form is valid, show the popup
-      setshowpopup(true); // Trigger the popup
-      console.log("Form submitted successfully:", formData);
-    }
 
-    // Validate other fields (e.g., fullName, address)
+    // Validate required fields
     if (!formData.fullName.trim()) {
       isValid = false;
       newErrors.fullName = "Full name is required.";
@@ -92,54 +104,82 @@ const Booking = () => {
       isValid = false;
       newErrors.address = "Address is required.";
     }
+    if (!formData.selectedDate) {
+      isValid = false;
+      newErrors.date = "Please select a date.";
+    }
+    if (!formData.selectedTime) {
+      isValid = false;
+      newErrors.time = "Please select a time.";
+    }
 
     setErrors(newErrors);
 
     if (isValid) {
-      // Form is valid, handle submission logic here
+      setShowPopup(true);
       console.log("Form submitted successfully:", formData);
     }
   };
+  const openTalkToChat = () => {
+    if (window && window.Tawk_API) {
+      window.Tawk_API.maximize(); // Open the chat widget
+    }
+  };
 
-  const handlepopupclose = () => {
-    setshowpopup(false);
+  const handlePopupClose = () => {
+    setShowPopup(false);
   };
 
   return (
     <div
+      ref={sectionRef}
       id="booknow"
-      className="h-auto max-w-6xl mx-auto md:px-[0.8rem] px-[2rem] py-[2.5rem] flex gap-[5rem] flex-col md:flex-row "
+      className="h-auto max-w-6xl mx-auto xl:px-[0.8rem] lg:px-[3rem] px-[2.5rem] py-[2.5rem] flex gap-[5rem] flex-col md:flex-row"
     >
-      <div className="textpart flex-1 space-y-5 flex items-start justify-center flex-col">
-        <h2 className="mx-auto text-4xl md:text-5xl font-bold text-neutral-800 ">
+      <motion.div
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"} // Trigger only when in view
+        variants={textVariant}
+        className="textpart flex-1 space-y-5 flex items-start justify-center flex-col"
+      >
+        <h2 className="mx-auto text-4xl md:text-5xl font-bold text-neutral-800">
           Request a Free Cleaning Quote today!
         </h2>
         <p>
-          Simply provide us with your Contact information along with your
-          requirements, and we will get back to you usually within 24 hours.
+          Simply provide us with your contact information along with your
+          requirements, and we will get back to you within 24 hours.
         </p>
-        <h3>Not Convinced yet?</h3>
-        <button className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2">
-          <span>Explore Our Services </span>
+        <h3>Not convinced yet?</h3>
+        <button
+          onClick={openTalkToChat}
+          className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 flex items-center justify-center gap-2"
+        >
+          <span>Contact</span>
           <FaLocationArrow />
         </button>
-      </div>
-      <div className="form flex-1 flex  items-center flex-col bg-[#ffed292a] shadow-2xl">
+      </motion.div>
+
+      <motion.div
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"} // Trigger only when in view
+        variants={imgVariant}
+        className="form flex-1 flex items-center flex-col bg-[#ffed292a] shadow-2xl"
+      >
         <h3 className="mx-auto text-xl md:text-5xl font-bold text-neutral-800 my-4">
           Get a quote
         </h3>
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 flex flex-col items-center w-full py-5 px-1 "
+          className="space-y-5 flex flex-col items-center w-full py-5 px-1"
         >
           <div className="row flex w-full px-5 gap-3 flex-wrap md:flex-nowrap">
             {/* Full Name */}
             <div className="flex flex-col w-full">
-              <label className="text-sm font-semibold mb-1">Full name</label>
+              <label className="text-sm font-semibold mb-1">Full Name</label>
               <input
                 type="text"
                 name="fullName"
-                className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+                className="border border-gray-300 p-2 rounded-lg"
                 placeholder="Enter your full name"
                 value={formData.fullName}
                 onChange={handleInputChange}
@@ -152,11 +192,11 @@ const Booking = () => {
 
             {/* Phone Number */}
             <div className="flex flex-col w-full">
-              <label className="text-sm font-semibold mb-1">Phone number</label>
+              <label className="text-sm font-semibold mb-1">Phone Number</label>
               <input
                 type="text"
                 name="phoneNumber"
-                className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+                className="border border-gray-300 p-2 rounded-lg"
                 placeholder="Enter your phone number"
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
@@ -167,14 +207,15 @@ const Booking = () => {
               )}
             </div>
           </div>
+
+          {/* Address and Email */}
           <div className="row flex w-full px-5 gap-3 flex-wrap md:flex-nowrap">
-            {/* Address */}
             <div className="flex flex-col w-full">
               <label className="text-sm font-semibold mb-1">Address</label>
               <input
                 type="text"
                 name="address"
-                className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+                className="border border-gray-300 p-2 rounded-lg"
                 placeholder="Enter your address"
                 value={formData.address}
                 onChange={handleInputChange}
@@ -185,7 +226,6 @@ const Booking = () => {
               )}
             </div>
 
-            {/* Email */}
             <div className="flex flex-col w-full">
               <label className="text-sm font-semibold mb-1">
                 Email <span className="text-gray-500 text-xs">(optional)</span>
@@ -193,95 +233,88 @@ const Booking = () => {
               <input
                 type="email"
                 name="email"
-                className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
+                className="border border-gray-300 p-2 rounded-lg"
                 placeholder="Enter your email (optional)"
                 value={formData.email}
                 onChange={handleInputChange}
               />
             </div>
           </div>
+
+          {/* Date and Time */}
           <div className="row flex w-full px-5 gap-3 flex-wrap md:flex-nowrap">
-            <div className="row flex w-full gap-3 flex-wrap md:flex-nowrap">
-              {/* Requested Service */}
-              {/* <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full">
               <label className="text-sm font-semibold mb-1">
-                Requested service
+                Day of Service
               </label>
-              <input
-                type="text"
-                className="border border-gray-300 p-2 rounded-lg focus:ring focus:ring-blue-300"
-                placeholder="Full cleaning"
-              />
-            </div> */}
-
-              {/* Day of Service - Date Picker */}
-              <div className="flex flex-col w-full">
-                <label className="text-sm font-semibold mb-1">
-                  Day of Service
-                </label>
-                <div className="relative">
-                  {/* Date Input Field */}
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
-                      value={selectedDate}
-                      onChange={(newValue) => setSelectedDate(newValue)}
-                      minDate={minSelectableDate} // Only allow selecting dates 2 days from now
-                      renderInput={(props) => (
-                        <TextField
-                          {...props}
-                          fullWidth
-                          label="Select Date"
-                          slotProps={{
-                            endAdornment: (
-                              <IconButton onClick={() => setOpen(true)}>
-                                <CalendarTodayIcon />
-                              </IconButton>
-                            ),
-                          }}
-                        />
-                      )}
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={formData.selectedDate}
+                  onChange={(newValue) =>
+                    setFormData({ ...formData, selectedDate: newValue })
+                  }
+                  minDate={minSelectableDate}
+                  renderInput={(props) => (
+                    <TextField
+                      {...props}
+                      fullWidth
+                      label="Select Date"
+                      slotProps={{
+                        endAdornment: (
+                          <IconButton>
+                            <CalendarTodayIcon />
+                          </IconButton>
+                        ),
+                      }}
                     />
-                  </LocalizationProvider>
-                </div>
-              </div>
+                  )}
+                />
+              </LocalizationProvider>
             </div>
 
-            {/* Separate Time Picker */}
-            <div className="row flex w-full gap-3 flex-wrap md:flex-nowrap">
-              <div className="flex flex-col w-full">
-                <label className="text-sm font-semibold mb-1">
-                  Select Time
-                </label>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <TimePicker
-                    value={selectedTime}
-                    onChange={(newValue) => setSelectedTime(newValue)}
-                    renderInput={(props) => (
-                      <TextField {...props} fullWidth label="Select Time" />
-                    )}
-                    minTime={minTime} // Set the minimum time to 7:00 AM
-                    maxTime={maxTime} // Set the maximum time to 8:00 PM
-                    views={["hours"]} // Only show hour selection (and implicitly AM/PM)
-                    ampm={true} // Display AM/PM format
-                  />
-                </LocalizationProvider>
-              </div>
+            <div className="flex flex-col w-full">
+              <label className="text-sm font-semibold mb-1">
+                Time of Service
+              </label>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                  value={formData.selectedTime}
+                  onChange={handleTimeChange}
+                  minTime={minTime}
+                  maxTime={maxTime}
+                  views={["hours"]} // Restrict to hours only
+                  renderInput={(params) => (
+                    <TextField {...params} fullWidth label="Select Time" />
+                  )}
+                />
+              </LocalizationProvider>
             </div>
           </div>
 
-          <div className="self-start ml-12 flex-wrap items-center w-full flex">
-            <RangeSlider />
-          </div>
+          {/* House Size Slider */}
+          <RangeSlider
+            value={formData.houseSize}
+            handleChange={handleSliderChange}
+          />
 
-          {/* Submit Button */}
-              <button className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2 self-start ml-5">
-                <span>Submit</span>
-                <IoIosArrowForward />
-              </button>
-
-          {showpopup && <DialogDemo onClose={handlepopupclose} />}
+          <button
+            type="submit"
+            className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300"
+          >
+            Book Now
+          </button>
         </form>
-      </div>
+      </motion.div>
+
+      {showPopup && (
+        <DialogDemo
+          open={showPopup}
+          onClose={handlePopupClose}
+          formValues={formData}
+          setShowPopup={setShowPopup}
+          setFormData={setFormData}
+        />
+      )}
     </div>
   );
 };

@@ -14,7 +14,33 @@ import condo from "../../assets/roomwithdog.jpg"
 import office from "../../assets/office2.jpg"
 import carpetroom from "../../assets/imgcarpet.jpg"
 import deepclean from "../../assets/condo.jpg"
-import { FaCheckCircle, FaLocationArrow } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
+import Link from "next/link";
+const cardStyle = {
+  padding: "30px",
+  border: "none",
+  borderRadius: "15px",
+  marginBottom: "30px",
+  boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
+  background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  transition: "transform 0.3s ease-in-out",
+} as const;
+
+const ulStyle = {
+  padding: "30px",
+  border: "none",
+  borderRadius: "15px",
+  marginBottom: "30px",
+  boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
+  background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
+  display: "flex",
+  flexDirection: "column",
+  transition: "transform 0.3s ease-in-out",
+} as const;
 
 export function AppleCardsCarouselDemo() {
   const cards = data.map((card, index) => (
@@ -23,7 +49,7 @@ export function AppleCardsCarouselDemo() {
 
   return (
     <div className="w-full h-full mx-auto md:px-[1rem] px-[2rem] py-[2.5rem]">
-      <h2 className="max-w-6xl mx-auto text-xl md:text-5xl font-bold text-neutral-800 font-sans">
+      <h2 className="max-w-6xl mx-auto text-xl md:text-5xl font-bold text-neutral-800 font-sans xl:px-0 lg:px-[3.5rem] md:px-[3rem]">
         What we do?
       </h2>
       <Carousel items={cards} />
@@ -33,24 +59,11 @@ export function AppleCardsCarouselDemo() {
 
 const data = [
   {
-    category: "House Cleaning",
     title: "Comprehensive House Cleaning",
     src: sofas,
     content: (
       <div
-        style={{
-          padding: "30px",
-          border: "none",
-          borderRadius: "15px",
-          marginBottom: "30px",
-          boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
-          background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          transition: "transform 0.3s ease-in-out",
-        }}
+        style={cardStyle}
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
@@ -66,15 +79,7 @@ const data = [
           style={{ width: "60%", height: "auto", borderRadius: "10px", marginBottom: "20px" }}
         />
         <ul className="flex gap flex-col"
-          style={{
-            marginTop: "20px",
-            listStyleType: "none",
-            paddingLeft: "0",
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            color: "#333",
-          }}
+          style={ulStyle}
         >
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
@@ -98,31 +103,26 @@ const data = [
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            +more
+            more
           </li>
         </ul>
+        <Link href={"#booknow"}>
+          <button
+            type="submit"
+            className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300"
+          >
+            Book Now
+          </button>
+        </Link>
       </div>
     ),
   },
   {
-    category: "Condo Cleaning",
     title: "Professional Condo Cleaning services",
     src: condoroom,
     content: (
       <div
-        style={{
-          padding: "30px",
-          border: "none",
-          borderRadius: "15px",
-          marginBottom: "30px",
-          boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
-          background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          transition: "transform 0.3s ease-in-out",
-        }}
+        style={cardStyle}
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
@@ -138,15 +138,7 @@ const data = [
           style={{ width: "60%", height: "auto", borderRadius: "10px", marginBottom: "20px" }}
         />
         <ul className="flex gap flex-col"
-          style={{
-            marginTop: "20px",
-            listStyleType: "none",
-            paddingLeft: "0",
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            color: "#333",
-          }}
+          style={ulStyle}
         >
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
@@ -166,31 +158,26 @@ const data = [
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            +more
+            more
           </li>
         </ul>
+        <Link href={"#booknow"}>
+          <button
+            type="submit"
+            className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300"
+          >
+            Book Now
+          </button>
+        </Link>
       </div >
     ),
   },
   {
-    category: "Office Cleaning",
     title: "Professional Office Cleaning Services",
     src: officeroom,
     content: (
       <div
-        style={{
-          padding: "30px",
-          border: "none",
-          borderRadius: "15px",
-          marginBottom: "30px",
-          boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
-          background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          transition: "transform 0.3s ease-in-out",
-        }}
+        style={cardStyle}
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
@@ -206,15 +193,7 @@ const data = [
           style={{ width: "60%", height: "auto", borderRadius: "10px", marginBottom: "20px" }}
         />
         <ul className="flex gap flex-col"
-          style={{
-            marginTop: "20px",
-            listStyleType: "none",
-            paddingLeft: "0",
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            color: "#333",
-          }}
+          style={ulStyle}
         >
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
@@ -238,32 +217,27 @@ const data = [
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            +more
+            more
           </li>
 
         </ul>
+        <Link href={"#booknow"}>
+          <button
+            type="submit"
+            className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300"
+          >
+            Book Now
+          </button>
+        </Link>
       </div >
     ),
   },
   {
-    category: "floorcleaning",
     title: "Specialized Floor Cleaning",
     src: floorcleaning,
     content: (
       <div
-        style={{
-          padding: "30px",
-          border: "none",
-          borderRadius: "15px",
-          marginBottom: "30px",
-          boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
-          background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          transition: "transform 0.3s ease-in-out",
-        }}
+        style={cardStyle}
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
@@ -279,15 +253,7 @@ const data = [
           style={{ width: "60%", height: "auto", borderRadius: "10px", marginBottom: "20px" }}
         />
         <ul className="flex gap flex-col"
-          style={{
-            marginTop: "20px",
-            listStyleType: "none",
-            paddingLeft: "0",
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            color: "#333",
-          }}
+          style={ulStyle}
         >
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
@@ -307,31 +273,26 @@ const data = [
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            +more
+            more
           </li>
         </ul>
+        <Link href={"#booknow"}>
+          <button
+            type="submit"
+            className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300"
+          >
+            Book Now
+          </button>
+        </Link>
       </div >
     ),
   },
   {
-    category: "Carpet Cleaning",
     title: "Specialized Carpet Cleaning",
     src: vaccuming,
     content: (
       <div
-        style={{
-          padding: "30px",
-          border: "none",
-          borderRadius: "15px",
-          marginBottom: "30px",
-          boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
-          background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          transition: "transform 0.3s ease-in-out",
-        }}
+        style={cardStyle}
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
@@ -347,15 +308,7 @@ const data = [
           style={{ width: "60%", height: "auto", borderRadius: "10px", marginBottom: "20px" }}
         />
         <ul className="flex gap flex-col"
-          style={{
-            marginTop: "20px",
-            listStyleType: "none",
-            paddingLeft: "0",
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            color: "#333",
-          }}
+          style={ulStyle}
         >
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
@@ -367,39 +320,34 @@ const data = [
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            Kitchen Cleaning (counters, stovetop, microwave)
+            Floor Care and Vacuuming
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            Bathroom Cleaning (toilet, sink, shower)
+            Trash Removal
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            +more
+            more
           </li>
         </ul>
+        <Link href={"#booknow"}>
+          <button
+            type="submit"
+            className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300"
+          >
+            Book Now
+          </button>
+        </Link>
       </div >
     ),
   },
   {
-    category: "Deep Cleaning",
     title: "Specialized Deep Cleaning",
     src: carpetcleaning,
     content: (
       <div
-        style={{
-          padding: "30px",
-          border: "none",
-          borderRadius: "15px",
-          marginBottom: "30px",
-          boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
-          background: "linear-gradient(135deg, #fefcea 0%, #f1da36 100%)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          transition: "transform 0.3s ease-in-out",
-        }}
+        style={cardStyle}
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
@@ -415,15 +363,7 @@ const data = [
           style={{ width: "60%", height: "auto", borderRadius: "10px", marginBottom: "20px" }}
         />
         <ul className="flex gap flex-col"
-          style={{
-            marginTop: "20px",
-            listStyleType: "none",
-            paddingLeft: "0",
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            color: "#333",
-          }}
+          style={ulStyle}
         >
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
@@ -447,9 +387,17 @@ const data = [
           </li>
           <li className="flex">
             <FaCheckCircle style={{ marginRight: "8px", color: "#4CAF50" }} />
-            +more
+            more
           </li>
         </ul>
+        <Link href={"#booknow"}>
+          <button
+            type="submit"
+            className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300"
+          >
+            Book Now
+          </button>
+        </Link>
       </div >
     ),
   },

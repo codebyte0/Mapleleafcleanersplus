@@ -12,7 +12,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import Image, { ImageProps, StaticImageData } from "next/image";
 import { useOutsideClick } from "../../hooks/use-outside-click";
 
@@ -23,8 +23,8 @@ interface CarouselProps {
 
 type Card = {
   src: string | StaticImageData;
-  title: string;
-  category: string;
+  title?: string;
+  category?: string;
   content: React.ReactNode | any;
 };
 
@@ -32,7 +32,7 @@ export const CarouselContext = createContext<{
   onCardClose: (index: number) => void;
   currentIndex: number;
 }>({
-  onCardClose: () => {},
+  onCardClose: () => { },
   currentIndex: 0,
 });
 
@@ -41,6 +41,10 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -98,50 +102,59 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
         >
           <div
             className={cn(
-              "absolute right-0  z-[1000] h-auto  w-[5%] overflow-hidden bg-gradient-to-l"
+              "absolute right-0  z-[2] h-auto  w-[5%] overflow-hidden bg-gradient-to-l"
             )}
           ></div>
 
           <div
             className={cn(
               "flex flex-row justify-start gap-4 pl-4",
-              "max-w-7xl mx-auto" // remove max-w-4xl if you want the carousel to span the full width of its container
+              "max-w-7xl mx-auto"
             )}
           >
-            {items.map((item, index) => (
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.5,
-                    delay: 0.2 * index,
-                    ease: "easeOut",
-                    once: true,
-                  },
-                }}
-                key={"card" + index}
-                className="last:pr-[5%] md:last:pr-[10%] rounded-3xl"
-              >
-                {item}
-              </motion.div>
-            ))}
+            {items.map((item, index) => {
+              const sectionRef = useRef(null); // Create ref for each card
+              const isInView = useInView(sectionRef, { once: true, margin: "-100px" }); // Each card gets its own `isInView`
+
+              return (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  ref={sectionRef}
+                  animate={isInView
+                    ? {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.5,
+                        delay: 0.2 * index,
+                        ease: "easeOut",
+                        once: true,
+                      },
+                    }
+                    : "hidden"}
+                  key={"card" + index}
+                  className="last:pr-[5%] md:last:pr-[10%] rounded-3xl"
+                >
+                  {item}
+                </motion.div>
+              );
+            })}
+
           </div>
         </div>
         <div className="-translate-y-12 flex justify-end gap-2 mr-10">
           <button
-            className="relative z-40 h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-[4] h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
             <IconArrowNarrowLeft className="h-14 w-14 text-gray-500" />
           </button>
           <button
-            className="relative z-40 h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-[4] h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
@@ -198,7 +211,7 @@ export const Card = ({
     <>
       <AnimatePresence>
         {open && (
-          <div className="fixed inset-0 h-[90vh] z-50">
+          <div className="fixed inset-0 h-[90vh] z-[5]">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -211,7 +224,7 @@ export const Card = ({
               exit={{ opacity: 0 }}
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
-              className="max-w-3xl overflow-y-scroll pop-up mx-auto bg-white dark:bg-neutral-900 max-h-[90vh] z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
+              className="max-w-3xl overflow-y-scroll pop-up mx-auto bg-white max-h-[90vh] z-[6] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
             >
               <button
                 className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
@@ -219,19 +232,19 @@ export const Card = ({
               >
                 <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
               </button>
-              <motion.p
+              {/* <motion.p
                 layoutId={layout ? `category-${card.title}` : undefined}
                 className="text-base font-medium text-black dark:text-white"
               >
                 {card.category}
-              </motion.p>
-              <motion.p
+              </motion.p> */}
+              {/* <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
                 className="text-2xl md:text-5xl font-semibold text-neutral-700 mt-4 dark:text-white"
               >
                 {card.title}
-              </motion.p>
-              <div className="py-10">{card.content}</div>
+              </motion.p> */}
+              <div className="py-5">{card.content}</div>
             </motion.div>
           </div>
         )}
@@ -239,16 +252,16 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-56 w-56 md:h-[30rem] md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"
+        className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-56 w-56 md:h-[30rem] md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-[2]"
       >
-        <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
-        <div className="relative z-40 p-8">
-          <motion.p
+        <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-[3] pointer-events-none" />
+        <div className="relative z-[4] p-8">
+          {/* <motion.p
             layoutId={layout ? `category-${card.category}` : undefined}
             className="text-white text-sm md:text-base font-medium font-sans text-left"
           >
             {card.category}
-          </motion.p>
+          </motion.p> */}
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
             className="text-white text-xl md:text-3xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-2"
@@ -258,9 +271,9 @@ export const Card = ({
         </div>
         <BlurImage
           src={card.src}
-          alt={card.title}
+          alt={"img"}
           fill
-          className="object-cover absolute z-10 inset-0"
+          className="object-cover absolute z-[2] inset-0"
         />
       </motion.button>
     </>

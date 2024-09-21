@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/components/ui/Confirmpopup.jsx"  ],
   "exclude": [
     "node_modules"
   ]

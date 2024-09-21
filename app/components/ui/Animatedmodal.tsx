@@ -6,14 +6,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../components/ui/dialog"
+} from "./dialog"
 import { FaLocationArrow } from 'react-icons/fa'
 
 const Animatedmodal = () => {
   return (
     <div className='w-full z-[999] overflow-hidden' suppressHydrationWarning={true}>
       <Dialog>
-        {/* Wrap the content in a single div */}
         <DialogTrigger asChild>
           <div className="px-4 py-2 bg-yellow-400 text-white rounded-s-xl rounded-e-xl rounded-tl-none font-bold hover:scale-105 relative left-[2.1px] flex items-center justify-center gap-2 cursor-pointer">
             <span>Get a Quote</span>

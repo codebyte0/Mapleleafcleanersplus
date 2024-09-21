@@ -13,7 +13,14 @@
     --foreground: #ededed;
   }
 }
+.ontop{
+  z-index: 9999;
+}
+.mobileNav{
+  z-index: 999999 !important;
+  background-color: red;
 
+}
 html {
   scroll-behavior: smooth;
 }

@@ -1,19 +1,59 @@
 import React from "react";
 import { useId } from "react";
+import { motion } from "framer-motion";
 
 export function FeaturesSectionDemo() {
+  const Cardsvariants = [
+    {
+      hidden: { opacity: 0, x: -50 },
+      visible: {
+        opacity: 1,
+      x: 0,
+        transition: { duration: 0.8, ease: "easeOut" },
+      },
+    },
+    {
+      hidden: { opacity: 0, x: -50 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 1.2, ease: "easeOut" },
+      },
+    },
+    {
+      hidden: { opacity: 0, x: -50 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 1.6, ease: "easeOut" },
+      },
+    },
+    {
+      hidden: { opacity: 0, x: -50 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 2, ease: "easeOut" },
+      },
+    },
+  ];
+
   return (
     <>
-      {grid.map((feature) => (
-        <div
+      {grid.map((feature, index) => (
+        <motion.div
           key={feature.icon}
+          variants={Cardsvariants[index]} // Select the corresponding variant for each feature
+          initial="hidden"
+          whileInView="visible" // Animation triggers on scroll
+          viewport={{ once: true }} // Trigger animation only once
           className="relative bg-gradient-to-b dark:from-neutral-900 from-neutral-100 dark:to-neutral-950 to-white p-2 rounded-3xl overflow-hidden"
         >
           <Grid size={20} />
-          <p className="text-neutral-600 dark:text-neutral-400 mt-4 text-base font-normal relative z-20">
+          <p className="text-neutral-600 dark:text-neutral-400 mt-4 text-base font-normal relative z-[2]">
             {feature.text}
           </p>
-        </div>
+        </motion.div>
       ))}
     </>
   );
