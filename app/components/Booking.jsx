@@ -12,6 +12,7 @@ import { DialogDemo } from "./ui/Confirmpopup";
 import RangeSlider from "./ui/Range";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useToast } from "../hooks/use-toast";
 
 const Booking = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,7 @@ const Booking = () => {
     selectedDate: null,
     selectedTime: null, // Initialize selectedTime as a Date object
   });
+  const { toast } = useToast();
 
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
@@ -122,7 +124,15 @@ const Booking = () => {
   };
   const openTalkToChat = () => {
     if (window && window.Tawk_API) {
-      window.Tawk_API.maximize(); // Open the chat widget
+      try{
+        window.Tawk_API.maximize(); // This opens the chat widget
+      }
+      catch(err){
+        toast({
+          title: "Please Check your Internet connection and try again",
+          // description: `${formData.fullName}, Your appointment has been scheduled for ${formData.date} at ${formData.time}. We will be in touch with you shortly.`,
+        });
+      }
     }
   };
 

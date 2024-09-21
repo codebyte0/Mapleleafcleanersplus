@@ -10,7 +10,7 @@ import Link from "next/link";
 import { FaLocationArrow } from "react-icons/fa";
 import { Rating } from "@mui/material";
 import { motion } from "framer-motion";
-
+import TypingEffect from "./ui/TypeEffect";
 const Header = () => {
   const count_up_ref_1 = useRef(null);
   const count_up_ref_2 = useRef(null);
@@ -56,23 +56,31 @@ const Header = () => {
         <Navbar />
         <section className="mt-[4rem] md:mt-[3rem] flex flex-col items-center lg:flex-row md:gap-y-0 gap-y-[2.2rem] px-3 md:px-8 lg:px-6 xl:px-1">
           <motion.div
-            className="relative text-part overflow-hidden flex-1 flex flex-col justify-center items-start space-y-8 md:space-y-5"
+            className="relative text-part overflow-hidden flex-1 flex flex-col justify-center items-start space-y-6 md:space-y-4 !-translate-y-7"
             initial="hidden"
             animate="visible"
             variants={textVariant}
           >
-            <motion.h1
-              className="text-5xl font-semibold"
-              variants={textVariant}
-            >
-              <span className="text-blue-700 font-extrabold">Professional</span>{" "}
-              Cleaning service for your home
+            <motion.h1 className="text-3xl" variants={textVariant}>
+              Your TODO-LIST:
             </motion.h1>
 
-            <motion.p className="text-lg" variants={textVariant}>
-              Get your house cleaned with Maple Leaf Cleaners plus. We can clean
-              your entire house at once. Our professional cleaners are trained
-              to clean your house with ease.
+            <div>
+              <motion.h1
+                className="text-4xl font-semibold line-through text-gray-700"
+                variants={textVariant}
+              >
+                Clean up.
+              </motion.h1>
+              <motion.h1 className="text-4xl font-bold mt-1" variants={textVariant}>
+                <TypingEffect />
+              </motion.h1>
+            </div>
+
+            <motion.p className="text-lg -translate-3" variants={textVariant}>
+              Leave the cleaning to us. At Maple Leaf Cleaners, we provide
+              thorough, reliable cleaning services so you can enjoy a pristine
+              home without the hassle.
             </motion.p>
 
             <motion.div
@@ -90,8 +98,8 @@ const Header = () => {
               </Link>
               <Link href={"#testimonials"}>
                 <motion.button
-                  className="flex items-center gap-2"
-                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 scale-105"
+                  whileHover={{ scale: 1.1 }}
                 >
                   <BiPlayCircle className="transitionext-slate-800" />{" "}
                   Testimonials
@@ -135,12 +143,12 @@ const Header = () => {
             </motion.div>
 
             <motion.div
-              className={`flex items-center p-2 pr-6 bg-white/60 backdrop-blurborder border-n-1/10 rounded-2xl gap-5 absolute top-5 right-1 w-72 z-50`}
+              className={`flex items-center p-2 pr-6 bg-orange-500/70 backdrop-blurborder border-n-1/10 rounded-2xl gap-5 absolute top-6 right-4 w-60 sm:w-64 md:w-[18rem] z-50 lg:w-[20rem]`}
               whileHover={{ scale: 1.05 }}
             >
               <div className="flex-1 ">
-                <h6 className="mb-1 font-bold text-base text-black">
-                  100% Satisfaction Guaranteed!
+                <h6 className="mb-1 font-bold text-sm md:text-base text-black">
+                  Satisfaction Guaranteed!
                 </h6>
                 <div className="flex items-center justify-between">
                   <ul className="flex m-0.5">

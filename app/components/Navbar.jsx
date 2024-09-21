@@ -50,7 +50,7 @@ const Navbar = () => {
               </ul>
             </nav>
             {/* Mobile View Sidebar  */}
-            <div className="md:hidden">
+            <div className="">
                 <FloatingNav/>
             </div>
           </div>

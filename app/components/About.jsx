@@ -10,13 +10,21 @@ import {
 import { Button } from "./ui/button";
 import { FaLocationArrow } from "react-icons/fa";
 import { motion, useInView } from "framer-motion"; // Importing useInView
+import { useToast } from "../hooks/use-toast";
 
 const About = () => {
-  const openTalkToChat = (err) => {
+  const { toast } = useToast();
+  const openTalkToChat = () => {
     if (window && window.Tawk_API) {
-      window.Tawk_API.maximize(); // This opens the chat widget
-    } else {
-      console.log(err);
+      try{
+        window.Tawk_API.maximize(); // This opens the chat widget
+      }
+      catch(err){
+        toast({
+          title: "Please Check your Internet connection and try again",
+          // description: `${formData.fullName}, Your appointment has been scheduled for ${formData.date} at ${formData.time}. We will be in touch with you shortly.`,
+        });
+      }
     }
   };
 
@@ -43,16 +51,9 @@ const About = () => {
     },
   };
 
-  const buttonVariant = {
-    hover: {
-      scale: 1.05,
-      transition: { duration: 0.2 },
-    },
-  };
-
   return (
     <div className="bg-white w-full h-auto md:h-[93vh] overflow-hidden" id="about">
-      <div className="max-w-6xl mx-auto py-6 md:py-[2rem] lg:py-[3.5rem] xl:py-[7rem] flex items-center">
+      <div className="max-w-6xl mx-auto py-14 md:py-[2rem] lg:py-[3.5rem] xl:py-[7rem] flex items-center">
         <div className="flex flex-col lg:flex-row w-full md:gap-[8rem] g px-2 xl:px-0 lg:px-[2.5rem] md:px-[2.5rem]">
           
           {/* Text part animation */}
