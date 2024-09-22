@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Script from "next/script";
-import { Toaster } from "@/app/components/ui/toaster"
+import { Toaster } from "@/app/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,22 +36,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
         <Toaster />
+        
         {/* Tawk.to Script */}
         <Script
           id="tawkto-script"
-          strategy="afterInteractive" // Ensures the script loads after the page is interactive
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -66,9 +61,26 @@ export default function RootLayout({
             `,
           }}
         />
-        <script>
-          
-        </script>
+
+        {/* Google Tag Manager Script */}
+        <Script
+          id="gtag-js"
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-WLZMXYBEE1"
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-WLZMXYBEE1');
+            `,
+          }}
+        />
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"
           integrity="sha512-+2pW8xXU/rNr7VS+H62aqapfRpqFwnSQh9ap6THjsm41AxgA0MhFRtfrABS+Lx2KHJn82UOrnBKhjZOXpom2LQ=="
           crossOrigin="anonymous" referrerPolicy="no-referrer"></script>
@@ -76,4 +88,3 @@ export default function RootLayout({
     </html>
   );
 }
-// https://dashboard.tawk.to/

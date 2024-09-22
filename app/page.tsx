@@ -8,6 +8,7 @@ import Booking from "./components/Booking"
 export default function Home() {
 
   return (
+ 
     <main className='h-auto bg-white overflow-hidden'>
       <div>
         <Header />

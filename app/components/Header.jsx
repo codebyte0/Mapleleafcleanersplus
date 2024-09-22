@@ -11,9 +11,13 @@ import { FaLocationArrow } from "react-icons/fa";
 import { Rating } from "@mui/material";
 import { motion } from "framer-motion";
 import TypingEffect from "./ui/TypeEffect";
+import { ScrollParallax } from "react-just-parallax";
+
 const Header = () => {
   const count_up_ref_1 = useRef(null);
   const count_up_ref_2 = useRef(null);
+
+  const parallaxRef = useRef(null);
 
   // CountUp effect for numbers
   useEffect(() => {
@@ -72,7 +76,10 @@ const Header = () => {
               >
                 Clean up.
               </motion.h1>
-              <motion.h1 className="text-4xl font-bold mt-1" variants={textVariant}>
+              <motion.h1
+                className="text-4xl font-bold mt-1"
+                variants={textVariant}
+              >
                 <TypingEffect />
               </motion.h1>
             </div>
@@ -126,47 +133,56 @@ const Header = () => {
           </motion.div>
 
           <motion.div
-            className="img-part flex-1 relative"
+            className="img-part flex-1 relative z-10"
             initial="hidden"
             animate="visible"
             variants={imgVariant}
+            ref={parallaxRef}
           >
             {/* Ring Image */}
-            <motion.div className="absolute inset-0 flex justify-center items-center -z-0 w-full h-full">
+            <motion.div className="absolute inset-0 flex justify-center items-center z-[-5] w-full h-full">
               <Image
                 src={ring}
-                className="z-10 w-[80%] h-[80%] sm:w-[60%] sm:h-[60%] bgring"
+                className=" w-[80%] h-[80%] sm:w-[60%] sm:h-[60%] bgring"
                 alt="Ring"
                 layout="fill"
                 objectFit="contain"
               />
             </motion.div>
 
-            <motion.div
-              className={`flex items-center p-2 pr-6 bg-orange-500/70 backdrop-blurborder border-n-1/10 rounded-2xl gap-5 absolute top-6 right-4 w-60 sm:w-64 md:w-[18rem] z-50 lg:w-[20rem]`}
-              whileHover={{ scale: 1.05 }}
+            <ScrollParallax
+              strength={0.05} // This reduces the movement sensitivity
+              lerpEase={0.1} // Smoothens the scroll effect
+              className="!z-50 fixed"
+              isAbsolutelyPositioned
+              style={{ zIndex: 1000 }}
             >
-              <div className="flex-1 ">
-                <h6 className="mb-1 font-bold text-sm md:text-base text-black">
-                  Satisfaction Guaranteed!
-                </h6>
-                <div className="flex items-center justify-between">
-                  <ul className="flex m-0.5">
-                    <Rating
-                      name="half-rating"
-                      defaultValue={5}
-                      precision={0.5}
-                      readOnly
-                    />
-                  </ul>
+              <motion.div
+                className={`flex items-center p-2 pr-6 bg-yellow-100/60 backdrop-blur-sm border-n-1/10 rounded-2xl gap-5 absolute top-3 lg:top-11 right-4 w-60 sm:w-64 md:w-[18rem] lg:w-[19.5rem] h-[6rem] lg:h-[5rem] !z-50`}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="flex-1 ">
+                  <h6 className="mb-1 font-bold text-sm md:text-base text-black">
+                    Satisfaction Guaranteed!
+                  </h6>
+                  <div className="flex items-center justify-between">
+                    <ul className="flex m-0.5">
+                      <Rating
+                        name="half-rating"
+                        defaultValue={5}
+                        precision={0.5}
+                        readOnly
+                      />
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </ScrollParallax>
 
             {/* Cleaner Image */}
             <motion.div variants={imgVariant}>
               <Image
-                className="relative z-[5]"
+                className="relative z-[-2]"
                 src={cleaner}
                 width={600}
                 height={600}
