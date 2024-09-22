@@ -151,7 +151,7 @@ const Header = () => {
             </motion.div>
 
             <ScrollParallax
-              strength={0.05} // This reduces the movement sensitivity
+              strength={0.1} // This reduces the movement sensitivity
               lerpEase={0.1} // Smoothens the scroll effect
               className="!z-50 fixed"
               isAbsolutelyPositioned
