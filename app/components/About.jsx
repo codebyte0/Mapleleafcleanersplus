@@ -52,7 +52,7 @@ const About = () => {
   };
 
   return (
-    <div className="bg-white w-full h-auto md:h-[93vh] overflow-hidden" id="about">
+    <div className="bg-white w-full h-auto  overflow-hidden" id="about">
       <div className="max-w-6xl mx-auto py-14 md:py-[2rem] lg:py-[3.5rem] xl:py-[7rem] flex items-center">
         <div className="flex flex-col lg:flex-row w-full md:gap-[8rem] g px-2 xl:px-0 lg:px-[2.5rem] md:px-[2.5rem]">
           
@@ -88,7 +88,7 @@ const About = () => {
             <div className="!w-full space-y-9">
               <motion.p className="mt-6" variants={textVariant}>
                 For over 15 years, Maple Leaf Cleaners Plus has been providing
-                top-notch cleaning services with a commitment to excellence. Our
+                top-notch cleaning services in St. albert and Edmonton with a commitment to excellence. Our
                 experienced professionals ensure that every job is completed
                 with the highest standards of quality and care. We pride
                 ourselves on our reliability and customer satisfaction.

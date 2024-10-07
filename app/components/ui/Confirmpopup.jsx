@@ -196,8 +196,8 @@ export function DialogDemo({
                 <MdKeyboardArrowDown />
               </CollapsibleTrigger>
               <CollapsibleContent className="text-gray-700">
-                $35 per hour. For Ontario residents, the minimum appointment
-                duration is 3 hours. For Edmonton, St Albert and surrounding areas, please
+                Rates are $35 per hour. The minimum appointment
+                duration is 3 hours.Please
                 contact us to discuss your preferred appointment length;
                 however, a 3-hour minimum applies by default.
               </CollapsibleContent>
