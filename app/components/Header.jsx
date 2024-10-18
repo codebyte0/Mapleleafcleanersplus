@@ -86,7 +86,7 @@ const Header = () => {
 
             <motion.p className="text-lg -translate-3" variants={textVariant}>
               Leave the cleaning to us. At Maple Leaf Cleaners, we provide
-              thorough, reliable cleaning services in Edmonton, St albert, Spruce Grove and surrounding areas, so you can enjoy a pristine
+              thorough, reliable cleaning services in Saint albert and surrounding areas, so you can enjoy a pristine
               home without the hassle.
             </motion.p>
 
@@ -150,7 +150,7 @@ const Header = () => {
               />
             </motion.div>
 
-            {/* <ScrollParallax
+            <ScrollParallax
               strength={0.1} // This reduces the movement sensitivity
               lerpEase={0.1} // Smoothens the scroll effect
               className="!z-50 fixed"
@@ -177,7 +177,7 @@ const Header = () => {
                   </div>
                 </div>
               </motion.div>
-            </ScrollParallax> */}
+            </ScrollParallax>
 
             {/* Cleaner Image */}
             <motion.div variants={imgVariant}>
