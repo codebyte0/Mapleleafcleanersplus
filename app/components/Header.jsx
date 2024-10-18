@@ -86,7 +86,7 @@ const Header = () => {
 
             <motion.p className="text-lg -translate-3" variants={textVariant}>
               Leave the cleaning to us. At Maple Leaf Cleaners, we provide
-              thorough, reliable cleaning services in Saint albert and surrounding areas, so you can enjoy a pristine
+              thorough, reliable cleaning services in Saint Albert and surrounding areas, so you can enjoy a pristine
               home without the hassle.
             </motion.p>
 

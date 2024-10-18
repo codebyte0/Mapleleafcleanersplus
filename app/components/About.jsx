@@ -88,7 +88,7 @@ const About = () => {
             <div className="!w-full space-y-9">
               <motion.p className="mt-6" variants={textVariant}>
                 For over 15 years, Maple Leaf Cleaners Plus has been providing
-                top-notch cleaning services in St. albert, Spruve Grove and surrounding areas with a commitment to excellence. Our
+                top-notch cleaning services in St. Albert and surrounding areas with a commitment to excellence. Our
                 experienced professionals ensure that every job is completed
                 with the highest standards of quality and care. We pride
                 ourselves on our reliability and customer satisfaction.
