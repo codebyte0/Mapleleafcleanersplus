@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { FaLocationArrow } from "react-icons/fa";
 import { motion, useInView } from "framer-motion"; // Importing useInView
 import { useToast } from "../hooks/use-toast";
+import useCityName from '../hooks/useCityName';
 
 const About = () => {
   const { toast } = useToast();
@@ -51,6 +52,8 @@ const About = () => {
     },
   };
 
+  const cityName = useCityName();
+
   return (
     <div className="bg-white w-full h-auto  overflow-hidden" id="about">
       <div className="max-w-6xl mx-auto py-14 md:py-[2rem] lg:py-[3.5rem] xl:py-[7rem] flex items-center">
@@ -88,7 +91,7 @@ const About = () => {
             <div className="!w-full space-y-9">
               <motion.p className="mt-6" variants={textVariant}>
                 For over 15 years, Maple Leaf Cleaners Plus has been providing
-                top-notch cleaning services in St. Albert and surrounding areas with a commitment to excellence. Our
+                top-notch cleaning services in {cityName} and surrounding areas with a commitment to excellence. Our
                 experienced professionals ensure that every job is completed
                 with the highest standards of quality and care. We pride
                 ourselves on our reliability and customer satisfaction.

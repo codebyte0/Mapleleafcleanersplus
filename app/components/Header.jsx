@@ -12,11 +12,15 @@ import { Rating } from "@mui/material";
 import { motion } from "framer-motion";
 import TypingEffect from "./ui/TypeEffect";
 import { ScrollParallax } from "react-just-parallax";
+import { useState } from "react";
+import useCityName from '../hooks/useCityName';
 
 const Header = () => {
   const count_up_ref_1 = useRef(null);
   const count_up_ref_2 = useRef(null);
+  const [loading, setLoading] = useState(true);
 
+  const cityName = useCityName();
   const parallaxRef = useRef(null);
 
   // CountUp effect for numbers
@@ -86,8 +90,9 @@ const Header = () => {
 
             <motion.p className="text-lg -translate-3" variants={textVariant}>
               Leave the cleaning to us. At Maple Leaf Cleaners, we provide
-              thorough, reliable cleaning services in Saint Albert and surrounding areas, so you can enjoy a pristine
-              home without the hassle.
+              thorough, reliable cleaning services in {cityName} and
+              surrounding areas, so you can enjoy a pristine home without the
+              hassle.
             </motion.p>
 
             <motion.div
