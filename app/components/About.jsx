@@ -31,7 +31,7 @@ const About = () => {
 
   // Create refs for the sections
   const sectionRef = useRef(null);
-  const isInView = useInView(secti15onRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   // Define motion variants for fade-in and slide-up effects
   const textVariant = {
