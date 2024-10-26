@@ -25,11 +25,11 @@ const Header = () => {
 
   // CountUp effect for numbers
   useEffect(() => {
-    const count_up_1 = new CountUp(count_up_ref_1.current, 1200, {
-      duration: 2, // 2 seconds
+    const count_up_1 = new CountUp(count_up_ref_1.current, 1500, {
+      duration: 3, // 2 seconds
     });
-    const count_up_2 = new CountUp(count_up_ref_2.current, 11, {
-      duration: 1.5, // 1.5 seconds
+    const count_up_2 = new CountUp(count_up_ref_2.current, 4, {
+      duration: 3, // 1.5 seconds
     });
     if (!count_up_1.error && !count_up_2.error) {
       count_up_1.start();

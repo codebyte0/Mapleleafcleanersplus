@@ -31,7 +31,7 @@ const About = () => {
 
   // Create refs for the sections
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(secti15onRef, { once: true, margin: "-100px" });
 
   // Define motion variants for fade-in and slide-up effects
   const textVariant = {
@@ -90,7 +90,7 @@ const About = () => {
           >
             <div className="!w-full space-y-9">
               <motion.p className="mt-6" variants={textVariant}>
-                For over 15 years, Maple Leaf Cleaners Plus has been providing
+                For over 4 years, Maple Leaf Cleaners Plus has been providing
                 top-notch cleaning services in {cityName} and surrounding areas with a commitment to excellence. Our
                 experienced professionals ensure that every job is completed
                 with the highest standards of quality and care. We pride
