@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const useEdmontonAreaDetection = () => {
   const [displayName, setDisplayName] = useState('Edmonton, St. Albert and surrounding areas');
@@ -21,38 +22,39 @@ const useEdmontonAreaDetection = () => {
     'Legal': ['T0G'],
     'Redwater': ['T0A'],
     'Graminia': ['T0E'],
-    'Toronto': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9'] // Added Toronto
+    'Toronto': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9'],
+    'Virginia': ['20171', '201', '220', '221', '222', '223', '224', '225', '226', '227', '228', '229', '230', '231', '232', '233', '234', '235', '236', '237', '238', '239']
   };
 
   useEffect(() => {
     const detectLocation = async () => {
       try {
-        const response = await fetch('https://ipinfo.io?token=a2b26e919e08a9');
-        const data = await response.json();
+        const response = await axios.get('https://ipinfo.io?token=a2b26e919e08a9');
+        const { postal } = response.data;
+  
+        console.log("Detected postal:", postal);
         
-        if (data.postal) {
-          // Get first 2-3 characters of postal code
-          const postalPrefix = data.postal.substring(0, 2);
-          
-          // Check if postal code matches any of our areas
+        if (postal) {
           for (const [area, prefixes] of Object.entries(edmontonAreas)) {
-            if (prefixes.some(prefix => postalPrefix.startsWith(prefix))) {
+            if (prefixes.some(prefix => postal.startsWith(prefix))) {
               setDisplayName(area);
-              console.log(area)
+              console.log("Matched area:", area);
               return;
             }
           }
         }
-        
-        // If no match or no postal code, keep default message
+  
+        console.log("No match found, setting default display name.");
+        setDisplayName('No match found');
       } catch (error) {
-        console.error('Location check failed, using default area');
-        setDisplayName('Edmonton, St. Albert and surrounding areas');
+        console.error('Location detection failed:', error);
+        setDisplayName('Location detection failed');
       }
     };
-
+  
     detectLocation();
   }, []);
+  
 
   return { displayName };
 };

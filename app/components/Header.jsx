@@ -12,7 +12,6 @@ import { Rating } from "@mui/material";
 import { motion } from "framer-motion";
 import TypingEffect from "./ui/TypeEffect";
 import { ScrollParallax } from "react-just-parallax";
-import { useState } from "react";
 import useEdmontonAreaDetection from '../hooks/useCityName';
 
 const Header = () => {
