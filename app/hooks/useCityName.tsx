@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 const useEdmontonAreaDetection = () => {
   const [displayName, setDisplayName] = useState('Edmonton, St. Albert and surrounding areas');
 
-  // Define areas with their postal code prefixes
   const edmontonAreas = {
     'Edmonton': ['T5', 'T6'],
     'St. Albert': ['T8N'],
@@ -21,7 +20,8 @@ const useEdmontonAreaDetection = () => {
     'Bon Accord': ['T0A'],
     'Legal': ['T0G'],
     'Redwater': ['T0A'],
-    'Graminia': ['T0E']
+    'Graminia': ['T0E'],
+    'Toronto': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9'] // Added Toronto
   };
 
   useEffect(() => {
