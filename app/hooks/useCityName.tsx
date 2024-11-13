@@ -22,8 +22,10 @@ const useEdmontonAreaDetection = () => {
     'Legal',
     'Redwater',
     'Graminia',
-    'Karachi'
+    'Montreal',
+    'Vancouver',
   ];
+  
 
   useEffect(() => {
     const detectLocation = async () => {
