@@ -1,30 +1,59 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
-const useCityName = () => {
-  const [cityName, setCityName] = useState('Edmonton'); // Default value
+const useEdmontonAreaDetection = () => {
+  const [displayName, setDisplayName] = useState('Edmonton, St. Albert and surrounding areas');
+
+  // Define areas with their postal code prefixes
+  const edmontonAreas = {
+    'Edmonton': ['T5', 'T6'],
+    'St. Albert': ['T8N'],
+    'Spruce Grove': ['T7X'],
+    'Stony Plain': ['T7Z'],
+    'Strathcona County': ['T8A', 'T8B', 'T8C', 'T8E', 'T8H'],
+    'Beaumont': ['T4X'],
+    'Morinville': ['T8R'],
+    'Fort Saskatchewan': ['T8L'],
+    'Leduc': ['T9E'],
+    'Sherwood Park': ['T8A', 'T8H'],
+    'Devon': ['T9G'],
+    'Gibbons': ['T0A'],
+    'Calmar': ['T0C'],
+    'Bon Accord': ['T0A'],
+    'Legal': ['T0G'],
+    'Redwater': ['T0A'],
+    'Graminia': ['T0E']
+  };
 
   useEffect(() => {
-    const fetchLocation = async () => {
+    const detectLocation = async () => {
       try {
-        const response = await axios.get('https://ipinfo.io?token=a2b26e919e08a9');
-        const { city, country } = response.data;
-
-        // If the user is in Canada, use the city name; otherwise, set default to Edmonton and St. Albert
-        if (country === 'CA') {
-          setCityName(city);
-        } else {
-          setCityName('Edmonton and St. Albert');
+        const response = await fetch('https://ipinfo.io?token=a2b26e919e08a9');
+        const data = await response.json();
+        
+        if (data.postal) {
+          // Get first 2-3 characters of postal code
+          const postalPrefix = data.postal.substring(0, 2);
+          
+          // Check if postal code matches any of our areas
+          for (const [area, prefixes] of Object.entries(edmontonAreas)) {
+            if (prefixes.some(prefix => postalPrefix.startsWith(prefix))) {
+              setDisplayName(area);
+              return;
+            }
+          }
         }
+        
+        // If no match or no postal code, keep default message
       } catch (error) {
-        console.error('Error fetching location:', error);
+        console.error('Location check failed, using default area');
+        setDisplayName('Edmonton, St. Albert and surrounding areas');
       }
     };
 
-    fetchLocation();
+    detectLocation();
   }, []);
 
-  return cityName;
+  return { displayName };
 };
 
-export default useCityName;
+export default useEdmontonAreaDetection;
