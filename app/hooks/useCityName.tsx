@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const useEdmontonAreaDetection = () => {
   const [displayName, setDisplayName] = useState('Edmonton, St. Albert and surrounding areas');
-
   const edmontonCities = [
     'Edmonton',
     'St. Albert',
@@ -25,6 +24,7 @@ const useEdmontonAreaDetection = () => {
     'Montreal',
     'Vancouver',
   ];
+  
 
   useEffect(() => {
     const detectLocation = async () => {
