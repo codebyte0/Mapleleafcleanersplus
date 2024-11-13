@@ -38,6 +38,7 @@ const useEdmontonAreaDetection = () => {
           for (const [area, prefixes] of Object.entries(edmontonAreas)) {
             if (prefixes.some(prefix => postalPrefix.startsWith(prefix))) {
               setDisplayName(area);
+              console.log(area)
               return;
             }
           }
