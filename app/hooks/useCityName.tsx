@@ -25,7 +25,6 @@ const useEdmontonAreaDetection = () => {
     'Montreal',
     'Vancouver',
   ];
-  
 
   useEffect(() => {
     const detectLocation = async () => {
@@ -35,11 +34,20 @@ const useEdmontonAreaDetection = () => {
 
         console.log('Detected city:', city);
 
-        if (city && edmontonCities.includes(city)) {
-          setDisplayName(city);
-          console.log('Matched city:', city);
+        // Normalize city name by trimming whitespace and converting to lowercase
+        const normalizedCity = city ? city.trim().toLowerCase() : '';
+
+        // Check if normalized city is in the edmontonCities array
+        const matchedCity = edmontonCities.find(
+          (city) => city.toLowerCase() === normalizedCity
+        );
+
+        if (matchedCity) {
+          setDisplayName(matchedCity);
+          console.log('Matched city:', matchedCity);
         } else {
           console.log('No match found, setting default display name.');
+          setDisplayName('Edmonton, St. Albert and surrounding areas');
         }
       } catch (error) {
         console.error('Location detection failed:', error);
